@@ -6,8 +6,11 @@
 
 # Get the user input
 weight = float(input("Enter your weight in pounds:"))
+print(weight)
 height_ft = float(input("Enter your height in feet:"))
+print(height_ft)
 height_in = float(input("Enter your remaining height in inches:"))
+print(height_in)
 
 # Converting and combining the two height inputs
 height = (height_ft * 12) + height_in
@@ -19,4 +22,4 @@ BMI = (weight / height**2) * 703
 BMI = round(BMI, 2)
 
 #Return the value
-print("Your BMI is:", BMI)
+print("Your BMI is", BMI)
