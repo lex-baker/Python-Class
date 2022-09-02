@@ -5,11 +5,11 @@
 #########################
 
 # Get the user input
-weight = float(input("Enter your weight in pounds:"))
+weight = eval(input("Enter your weight in pounds: "))
 print(weight)
-height_ft = float(input("Enter your height in feet:"))
+height_ft = eval(input("Enter your height in feet: "))
 print(height_ft)
-height_in = float(input("Enter your remaining height in inches:"))
+height_in = eval(input("Enter your remaining height in inches: "))
 print(height_in)
 
 # Converting and combining the two height inputs

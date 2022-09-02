@@ -5,9 +5,9 @@
 #########################
 
 # Get the user input
-in_1 = eval(input("Enter a value:"))
+in_1 = eval(input("Enter a value: "))
 print(in_1)
-in_2 = eval(input("Enter a second value:"))
+in_2 = eval(input("Enter a second value: "))
 print(in_2)
 
 # Print the calculated values
