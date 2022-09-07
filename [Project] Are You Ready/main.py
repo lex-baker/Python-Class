@@ -22,12 +22,21 @@ def main():
     print(P_N)
     # Difficulty of subject matter
     D = eval(input("Difficulty of the subject matter (1 - 10 with 10 being \'theoretical particle physics\'): "))
+    if(D < 1 or D > 10):
+        print("Input is invalid")
+        exit()
     print(D)
     #Level of nervousness
     N = eval(input("Level of nervousness ( 1 - 10 with 10 being \'tightrope across the grand Canyon on a windy day\'): "))
+    if(N < 1 or N > 10):
+        print("Input is invalid")
+        exit()
     print(N)
     # Importance of Event (1-10)
     I = eval(input("Importance of the event (1 - 10 with 10 being \'singing the national anthem at the Super Bowl\'): "))
+    if(I < 1 or I > 10):
+        print("Input is invalid")
+        exit()
     print(I)
 
     # Processing

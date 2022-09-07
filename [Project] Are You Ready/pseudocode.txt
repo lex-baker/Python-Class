@@ -1,7 +1,7 @@
 Pseudocode:
 
 -Get user inputs
--Check that valid inputs were given for all
+-Check that all given inputs are valid
 -Calculate the numerator
 -Calculate the denominator
 -Divide the numerator by the denominator
