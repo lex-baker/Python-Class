@@ -9,26 +9,26 @@ Your readme.txt is a detailed description of what the program is designed to do,
 code.  It should detail how input files should be formatted and where output will be directed (e.g. file, 
 screen, or printer). Include the following topics (use these titles in your document):
 
-  TITLE: [required]
-  AUTHOR/PROGRAMMER: Lex Baker
-  DATE DUE: [required]
-  DATE SUBMITTED: [required]
-  COURSE TITLE: Python I
-  MEETING TIME(S): Monday, Wednesday, Friday @ 9am
-  DESCRIPTION: [required]
-  HONOR CODE: [required] digitally signed
-  HOWTO: [required] how to execute the file
-  INPUT FILE: [required, if used] include structure, formatting, naming, and so on.
-  OUTPUT FILE: [required, if used] name, data type, device, where appropriate, 
-  BIBLIOGRAPHY: [required] include any websites, books, et cetera, that you referenced to aide 
+TITLE: [required]
+AUTHOR/PROGRAMMER: Lex Baker
+DATE DUE: [required]
+DATE SUBMITTED: [required]
+COURSE TITLE: Python I
+MEETING TIME(S): Monday, Wednesday, Friday @ 9am
+DESCRIPTION: [required]
+HONOR CODE: [required] digitally signed
+HOWTO: [required] how to execute the file
+INPUT FILE: [required, if used] include structure, formatting, naming, and so on.
+OUTPUT FILE: [required, if used] name, data type, device, where appropriate, 
+BIBLIOGRAPHY: [required] include any websites, books, et cetera, that you referenced to aide 
 you in completing your work. This would include your textbook.
-  RESOURCES: beyond a typical bibliography
-  TUTORS: individuals other that the instructor that gave you support
-  COMMENTS: e.g. version numbers, assumptions, known errors, limitations, and 
+RESOURCES: beyond a typical bibliography
+TUTORS: individuals other that the instructor that gave you support
+COMMENTS: e.g. version numbers, assumptions, known errors, limitations, and 
 bonus/enhancements made to the assignment.  Also include here any discussions and provisions 
 you may have negotiated with the instructor, such as extensions.  If a program is turned in late, 
 you must use this section to explain why in order to earn (late) credit for your effort.
-  REFLECTION: [required] the length of time it took you to complete this assignment. Include any 
+REFLECTION: [required] the length of time it took you to complete this assignment. Include any 
 problems that you encountered and how you overcame them.
 
 All entries should be included in each readme.txt.  For those items that do not apply and are not tagged 
