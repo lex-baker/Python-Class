@@ -1,8 +1,27 @@
-# The Chess Problem
-Author: Lex Baker
-Date: 9/6/22
-This program calculates how many grains of rice the mathematician would have in the Chess Problem,
+TITLE: The Chess Problem
+AUTHOR: Lex Baker
+DTE DUE: 9/8/22
+DATE SUBMITTED: 9/7/22
+COURSE TITLE: Python I
+MEETING TIME(S): Monday, Wednesday, Friday @ 9am
+DESCRIPTION: This program calculates how many grains of rice the mathematician would have in the Chess Problem,
 then calculates how many feet of rice deep that would be if it was solely contained within the surface area of South Carolina
+HONOR CODE: On my honor, I neither gave nor receieved unauthorized help on this assignment. <Lex Baker>
+HOWTO: Open this file in the IDE of your choice and click run
+INPUT FILE: N/A
+OUTPUT FILE: N/A
+BIBLIOGRAPHY:
+-https://www.themeasureofthings.com/singleresult.php?comp=weight&unit=gms&amt=0.021&i=362
+-https://fdc.nal.usda.gov/fdc-app.html#/food-details/169704/measures
+-https://www.census.gov/geographies/reference-files/2010/geo/state-area.html
+-https://www.statista.com/statistics/242364/rice-production-in-china/
+-https://www.statista.com/statistics/1282575/japan-milled-rice-production-volume/
+RESOURCES: N/A
+TUTORS: N/A
+COMMENTS: The code is explained in comments within the chess.py file. This assignment was originally submitted on time, but resubmitted to modify the README to add in the required information.
+REFLECTION: This assignment took me around 5 hours to complete, although the vast majority of that time was spent researching rice specifications. Measurements seemed to wildly vary, but I pinned down both the weight of a single grain of rice and the weight of a cup of rice. On that note, I commented out adding void space, because the method I used to calculate included the void in the first place since I found the weight of a cup of rice and divided it by the weight of a single grain of rice to find grains per cup. Because the cup of rice already has voids in between the rice, adding in the void afterwards actually doubles the amount of void, which is unnecessary.
+
+My math and notations/explanations on this work:
 
 Assuming the type of rice to be brown rice:
 

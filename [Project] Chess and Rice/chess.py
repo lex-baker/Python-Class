@@ -36,7 +36,11 @@ def main():
     final_miles = cubic_miles / surface_area_sc
 
     # Adding 15% "void" space to the otherwise solid block of rice
-    final_miles += final_miles * 0.15
+    # I commented out adding void space, because the method I used to calculate included this in the first place
+    # Since I found the weight of one grain and compared it to the weight of a cup of rice
+    # And that cup of rice already has voids in between the rice,
+    # Adding in the void afterwards actually doubles the amount of void, which is unrealistic
+    # final_miles *= 1.15
 
     # Converting to feet
     final_feet = final_miles * 5280
