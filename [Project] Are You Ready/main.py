@@ -6,19 +6,22 @@
 
 def main():
     # Input
-    # Variables S, C, and P_N are used in the numerator calculations
+    # Variables S, C, and P_A are used in the numerator calculations
     # Hours of sleep
     S = eval(input("Hours of sleep you had last night: "))
     print(S)
     # Shots of stimulants
     C = eval(input("Shots of espresso or other stimulants consumed: "))
     print(C)
-    # Hours of prep needed for the event
-    P_N = eval(input("Hours of preparation needed to excel: "))
-    print(P_N)
-    # Variables P_A, D, N, and I are used in the denominator calculations
     # Hours spent preparing
     P_A = eval(input("Hours you actually spent preparing: "))
+    print(P_A)
+    # Variables P_N, D, N, and I are used in the denominator calculations
+    # Hours of prep needed for the event
+    P_N = eval(input("Hours of preparation needed to excel: "))
+    if(P_N <= 0):
+        print("If you didn't need to prepare, then you shouldn't be nervous!")
+        exit()
     print(P_N)
     # Difficulty of subject matter
     D = eval(input("Difficulty of the subject matter (1 - 10 with 10 being \'theoretical particle physics\'): "))
@@ -40,7 +43,16 @@ def main():
     print(I)
 
     # Processing
-    
+    numerator = 8 * P_A * (S + C)
+    denominator = 3 * P_N * (D + N + I)
+    final = numerator / denominator
+
+    #Output
+    print("Final value =", final)
+    if(final > 1):
+        print("GO IN CONFIDENCE")
+    else:
+        print("YOU NEED MORE PREPARATION")
 
 
 main()

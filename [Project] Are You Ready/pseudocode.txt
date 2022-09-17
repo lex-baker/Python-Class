@@ -1,8 +1,8 @@
 Pseudocode:
 
--Get user inputs
--Check that all given inputs are valid
--Calculate the numerator
--Calculate the denominator
+ Get user inputs for variables for sleep, caffiene, hours needed, hours spent prepping, difficulty, nervousness, and importance.
+-Check that the difficulty, nervousness, and importance are between 1-10, and hours needed is greater than 0.
+-Calculate the numerator (8 x hours spent prepping x (sleep + caffiene))
+-Calculate the denominator (3 x hours needed x (difficulty + nervousness + importance))
 -Divide the numerator by the denominator
--Return the value to the user
+-Return the value to the user and tell them whether they're ready or not
