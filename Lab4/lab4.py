@@ -55,4 +55,4 @@ print(sp.dsolve(sp.Eq(f(x).diff(x, x) - 2*f(x).diff(x) + f(x), sp.sin(x)), f(x))
 
 import numpy as np
 
-for x in range(elemet)
+for x in range(element)
