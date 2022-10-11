@@ -1,3 +1,8 @@
+# Lab 8
+# By Lex Baker
+# Submitted 10/11/22
+
+
 Mariners_runs = (10, 8, 8, 2, 3, 3, 5, 0, 6, 1)
 print(Mariners_runs)
 
