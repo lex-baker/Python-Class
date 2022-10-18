@@ -1,3 +1,8 @@
+# Lex Baker
+# Lab 9, For loop and range
+# Submitted 10/18/22
+
+
 # for ii in range(0,10000,5):
 #     print(ii)
 
