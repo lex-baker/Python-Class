@@ -8,21 +8,31 @@
 # Import the graphics.py module
 from graphics import *
 
-# Set the constant variables
-WIDTH = 500
-HEIGHT = 500
-EGTHRESHOLD = .07
+try:
+    # Access the districts.txt file
+    districts_file = open("districts.txt")
+    districts = districts_file.readlines()
+    districts_file.close()
 
-# Access the districts.txt file
-districts = open("districts.txt").readlines()
-
-# Access the eligible_voters.txt file
-voters = open("eligible_voters.txt").readlines()
+    # Access the eligible_voters.txt file
+    voters_file = open("eligible_voters.txt")
+    voters = voters_file.readlines()
+    voters_file.close()
+except FileNotFoundError:
+    print("Cannot find one or more neccessary files")
+    exit()
 
 """
 Main file which calls all other functions
 """
 def main():
+    # Set the constant variables
+    WIDTH = 500
+    HEIGHT = 500
+    EGTHRESHOLD = .07
+    # Explain what this program does
+    print("This program allows you to search through data about congressional voting districts")
+    print("and determine whether a particular state is gerrymandered.\n")
     # Have the user input a state
     input_state = input("Which state do you want to look up? ")
     print(input_state)
@@ -39,9 +49,10 @@ def main():
         # Calculate wasted democratic and republican votes
         wasted_democratic, wasted_republican = find_waste(district_info)
         # Print information found thus far
-        print(f"Total Wasted Democratic votes: {wasted_democratic}")
-        print(f"Total Wasted Republican votes: {wasted_republican}")
-        print(f"{total_voters} eligible voters")
+        print("Total Wasted Democratic votes:", wasted_democratic)
+        print("Total Wasted Republican votes:", wasted_republican)
+        # The misspelling of eligible is to comply with Submitty
+        print(total_voters, "elgible voters")
 
         # Only continue if there are at least three districts
         if len(district_info) >= 3:
@@ -49,8 +60,8 @@ def main():
             # Calculate the efficiency gap and which party it favors
             efficiency_gap, favored_party = find_efficiency_gap(total_voters, wasted_democratic, wasted_republican)
             # Determine if the state is gerrymandered
-            gerrymandered = is_gerrymandered(efficiency_gap)
-            print(f"The Efficiency Gap is {efficiency_gap * 100:0.1f}% in favor of {favored_party}.")
+            gerrymandered = is_gerrymandered(efficiency_gap, EGTHRESHOLD)
+            print("The Efficiency Gap is " + str(round(efficiency_gap * 100, 1)) + "% in favor of " + favored_party + ".")
             if gerrymandered:
                 print("The State does appear to be gerrymandered.")
             else:
@@ -58,14 +69,15 @@ def main():
         else:
             # This is printed if there aren't enough districts to calculate an efficiency gap
             print("There are an insufficient number of districts to calculate an Efficiency Gap.")
-            print(f"This State has {len(district_info)} districts. States with less than three districts cannot be gerrymandered")
+            # The extra space between sentences is to comply with Submitty
+            print("This State has", len(district_info), "districts.  States with less than three districts cannot be gerrymandered.")
 
         # Graph the districts to help visualize the data
-        graph_districts(state_name, total_voters, district_info)
+        graph_districts(state_name, total_voters, district_info, WIDTH, HEIGHT)
         
     else:
         # Prints if the user input is not found within the districts.txt file
-        print(f"\"{input_state}\" not found.")
+        print("\"" + input_state + "\" not found.")
         
 
 """
@@ -167,7 +179,7 @@ def find_efficiency_gap(votes, waste_dem, waste_rep):
 """
 Determine if the efficiency gap meets or exceeds the given threshold
 """
-def is_gerrymandered(eff_gap, threshold=EGTHRESHOLD):
+def is_gerrymandered(eff_gap, threshold):
     # Create the boolean value
     gerrymandered = False
     # Determine if it meets or exceeds the threshold
@@ -180,7 +192,7 @@ def is_gerrymandered(eff_gap, threshold=EGTHRESHOLD):
 """
 Visualize the votes casted for both parties in each district in a given state
 """
-def graph_districts(state, num_voters, districts, w=WIDTH, h=HEIGHT):
+def graph_districts(state, num_voters, districts, w, h):
     # Create canvas
     win = GraphWin("District Breakdown", w, h)
 
@@ -201,7 +213,7 @@ def graph_districts(state, num_voters, districts, w=WIDTH, h=HEIGHT):
 
     # Create the text that displays eligible voters
     # Moving it left from the right edge by 120 pixels seems too far, but moving left from the right edge by 80 pixels seems to work
-    voters_text = Text(Point(w-80, 10), f"{num_voters} eligible voters")
+    voters_text = Text(Point(w-80, 10), str(num_voters) + " eligible voters")
     voters_text.setSize(10)
     voters_text.draw(win)
 
@@ -210,7 +222,11 @@ def graph_districts(state, num_voters, districts, w=WIDTH, h=HEIGHT):
     # For every district
     for d in districts:
         # Calulate the length of the democratic bar
-        democratic_bar_length = d[0] / (d[0] + d[1]) * w
+        try:
+            democratic_bar_length = d[0] / (d[0] + d[1]) * w
+        except ZeroDivisionError:
+            # Added this try/except block because some districts have no votes for either party tallied (e.g. Florida)
+            democratic_bar_length = w / 2
 
         # Create the bar that represents Democratic votes
         blue_bar = Rectangle(Point(0, bar_top), Point(democratic_bar_length, bar_top + 20))
@@ -231,5 +247,6 @@ def graph_districts(state, num_voters, districts, w=WIDTH, h=HEIGHT):
     win.getMouse()
     win.close()
 
-# Run the main function
-main()
+# Run the main function if this program is being run directly and not imported
+if __name__ == "__main__":
+    main()
