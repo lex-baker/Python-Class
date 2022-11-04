@@ -1,7 +1,7 @@
 TITLE: The Chess Problem
 AUTHOR: Lex Baker
 DTE DUE: 11/1/22
-DATE SUBMITTED: 10/31/22
+DATE SUBMITTED: 11/4/22
 COURSE TITLE: Python I
 MEETING TIME(S): Monday, Wednesday, Friday @ 9am
 DESCRIPTION: This program determines if a state has been gerrymandered by summing the wasted votes from each district, then using a calculation that provides a percentage, which is compared against a threshold. If the percentage meets or exceeds the threshold, then the state has been gerrymandered. This program also returns a visual representation of the votes from each district of a given state.
