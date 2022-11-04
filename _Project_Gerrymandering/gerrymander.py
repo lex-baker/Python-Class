@@ -8,20 +8,6 @@
 # Import the graphics.py module
 from graphics import *
 
-try:
-    # Access the districts.txt file
-    districts_file = open("districts.txt")
-    districts = districts_file.readlines()
-    districts_file.close()
-
-    # Access the eligible_voters.txt file
-    voters_file = open("eligible_voters.txt")
-    voters = voters_file.readlines()
-    voters_file.close()
-except FileNotFoundError:
-    print("Cannot find one or more neccessary files")
-    exit()
-
 """
 Main file which calls all other functions
 """
@@ -30,6 +16,22 @@ def main():
     WIDTH = 500
     HEIGHT = 500
     EGTHRESHOLD = .07
+
+    # Check that the files exist and open them if so
+    try:
+        # Access the districts.txt file
+        districts_file = open("districts.txt")
+        all_states_districts = districts_file.readlines()
+        districts_file.close()
+
+        # Access the eligible_voters.txt file
+        voters_file = open("eligible_voters.txt")
+        all_states_voters = voters_file.readlines()
+        voters_file.close()
+    except FileNotFoundError:
+        print("Cannot find one or more neccessary files")
+        exit()
+
     # Explain what this program does
     print("This program allows you to search through data about congressional voting districts")
     print("and determine whether a particular state is gerrymandered.\n")
@@ -37,20 +39,20 @@ def main():
     input_state = input("Which state do you want to look up? ")
     print(input_state)
     # Attempt to get district info for given state
-    raw_district_info = get_district_info(input_state)
+    raw_district_info = get_district_info(input_state, all_states_districts)
     # Only proceed if state was found in districts.txt
     if raw_district_info != None:
         # Save state name (for graphics window)
         state_name = raw_district_info[0]
         # Get the total number of voters
-        total_voters = get_voter_info(input_state)
+        total_voters = get_voter_info(input_state, all_states_voters)
         # Change the format of the array of districts and their respective tallies of votes
         district_info = filter_districts(raw_district_info)
-        # Calculate wasted democratic and republican votes
-        wasted_democratic, wasted_republican = find_waste(district_info)
+        # Calculate wasted democratic and republican votes as an array of [wasted Democrat votes, wasted Republican votes]
+        wasted_votes = find_waste(district_info)
         # Print information found thus far
-        print("Total Wasted Democratic votes:", wasted_democratic)
-        print("Total Wasted Republican votes:", wasted_republican)
+        print("Total Wasted Democratic votes:", wasted_votes[0])
+        print("Total Wasted Republican votes:", wasted_votes[1])
         # The misspelling of eligible is to comply with Submitty
         print(total_voters, "elgible voters")
 
@@ -58,7 +60,7 @@ def main():
         if len(district_info) >= 3:
             # The efficiency gap calculation and gerrymandering verdict should only run if there are at least three districts
             # Calculate the efficiency gap and which party it favors
-            efficiency_gap, favored_party = find_efficiency_gap(total_voters, wasted_democratic, wasted_republican)
+            efficiency_gap, favored_party = find_efficiency_gap(total_voters, wasted_votes[0], wasted_votes[1])
             # Determine if the state is gerrymandered
             gerrymandered = is_gerrymandered(efficiency_gap, EGTHRESHOLD)
             print("The Efficiency Gap is " + str(round(efficiency_gap * 100, 1)) + "% in favor of " + favored_party + ".")
@@ -84,16 +86,16 @@ def main():
 Takes user input, searches for an entry in districts.txt that matches,
 and returns an array of the line split by commas
 """
-def get_district_info(user_input):
-    for line in districts:
+def get_district_info(user_input, states_districts):
+    for line in states_districts:
         state_name = line.split(",")[0].lower()
         if state_name == user_input.lower():
             return line.strip().split(",")
     return None
 
 
-def get_voter_info(user_input):
-    for line in voters:
+def get_voter_info(user_input, states_voters):
+    for line in states_voters:
         # Both state_name and user input are lowercased to prevent case-errors from interfering with detection
         state_name = line.split(",")[0].lower()
         if state_name == user_input.lower():
@@ -149,7 +151,7 @@ def find_waste(districts):
             waste_rep += d[1]
     
     # Return both parties' wasted votes
-    return waste_dem, waste_rep
+    return [ waste_dem, waste_rep ]
 
 
 """
