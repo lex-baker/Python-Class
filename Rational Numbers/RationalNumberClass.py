@@ -9,7 +9,7 @@ class RationalNumber:
 
     def __gcd__(self, num1, num2):
         '''Computes and returns the greatest common divisor of the two
-        positive parameters. Uses Euclid's algorithm.'''
+positive parameters. Uses Euclid's algorithm.'''
         while (num1 != num2):
             if (num1 > num2):
                 num1 = num1 - num2
@@ -19,7 +19,7 @@ class RationalNumber:
 
     def __init__(self, numer, denom):
         '''Constructor: Sets up the rational number by ensuring a nonzero
-        denominator and making only the numerator signed. Non-integers are converted.'''
+           denominator and making only the numerator signed. Non-integers are converted.'''
         self.numerator = numer
         self.denominator = denom
 
@@ -36,7 +36,7 @@ class RationalNumber:
     
     def __reduce__(self):
         '''Reduces this rational number by dividing both the numerator
-        and the denominator by their greatest common divisor.'''
+and the denominator by their greatest common divisor.'''
         if (self.numerator != 0):
             common = self.__gcd__(abs(self.numerator), self.denominator)
             self.numerator = self.numerator // common
