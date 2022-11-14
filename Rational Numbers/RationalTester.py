@@ -8,7 +8,8 @@ from RationalNumberClass import RationalNumber
 
 def main():
     '''Creates some rational number objects and performs various operations on them.'''
-    r1 = RationalNumber(6, 8)
+
+    r1 = RationalNumber(-6, 8)
     r2 = RationalNumber(1, 3)
 
     print("First rational number:", r1)
