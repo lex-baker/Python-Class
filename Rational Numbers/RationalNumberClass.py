@@ -30,8 +30,8 @@ class RationalNumber:
             numer = numer * -1
             denom = denom * -1
 
-        numerator = numer
-        denominator = denom
+        self.numerator = numer
+        self.denominator = denom
         self.__reduce__()
     
     def __reduce__(self):
