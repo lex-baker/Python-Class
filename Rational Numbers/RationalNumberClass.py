@@ -43,15 +43,18 @@ class RationalNumber:
             self.denominator = self.denominator // common
 
     def __str__(self):
-        result = ""
-        if (self.numerator == 0):
-            result = "0"
-        else:
-            if (self.denominator == 1):
-                result = str(self.numerator) + ""
-            else:
-                result = str(self.numerator) + "/" + str(self.denominator)
-        return result
+        '''Returns this rational number as a string.'''
+        # The commented-out code is from the Java program, but Submitty doesn't seem to want us to use this
+        # result = ""
+        # if (self.numerator == 0):
+        #     result = "0"
+        # else:
+        #     if (self.denominator == 1):
+        #         result = str(self.numerator) + ""
+        #     else:
+        #         result = str(self.numerator) + "/" + str(self.denominator)
+        # return result
+        return str(self.numerator) + "/" + str(self.denominator)
 
     def getNumerator(self):
         '''Returns the numerator of this rational number.'''
@@ -66,8 +69,9 @@ class RationalNumber:
         return RationalNumber(self.denominator, self.numerator)
 
     def add(self, op2):
-        '''Adds this rational number to the one passed as a parameter. A common 
-        denominator is found by multiplying the individual denominators.'''
+        '''Adds this rational number to the one passed as a parameter.
+A common denominator is found by multiplying the individual
+denominators.'''
         commonDenominator = self.denominator * op2.getDenominator()
         numerator1 = self.numerator * op2.getDenominator()
         numerator2 = op2.getNumerator() * self.denominator
@@ -75,8 +79,8 @@ class RationalNumber:
         return RationalNumber(sum, commonDenominator)
     
     def subtract(self, op2):
-        '''Subtracts the rational number passed as a parameter 
-        from this rational number.'''
+        '''Subtracts the rational number passed as a parameter from this
+rational number.'''
         commonDenominator = self.denominator * op2.getDenominator()
         numerator1 = self.numerator * op2.getDenominator()
         numerator2 = op2.getNumerator() * self.denominator
@@ -84,17 +88,18 @@ class RationalNumber:
         return RationalNumber(difference, commonDenominator)
 
     def multiply(self, op2):
-        '''Multiplies this rational number by the one passed as a parameter.'''
+        '''Multiplies this rational number by the one passed as a
+parameter.'''
         numer = self.numerator * op2.getNumerator()
         denom = self.denominator * op2.getDenominator()
         return RationalNumber(numer, denom)
 
     def divide(self, op2):
         '''Divides this rational number by the one passed as a parameter
-        by multiplying by the reciprocal of the second rational.'''
+by multiplying by the reciprocal of the second rational.'''
         return self.multiply(op2.reciprocal())
     
     def isLike(self, op2):
         '''Determines if this rational number is equal to the one passed
-        as a parameter. Assumes they are both reduced.'''
+as a parameter. Assumes they are both reduced.'''
         return ( self.numerator == op2.getNumerator() and self.denominator == op2.getDenominator() )
