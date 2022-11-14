@@ -52,7 +52,7 @@ if __name__ == "__main__":
     main()
 
 """
-Expected Output:
+Expected and Received Output:
 
 First rational number: 3/4
 Second rational number: 1/3
