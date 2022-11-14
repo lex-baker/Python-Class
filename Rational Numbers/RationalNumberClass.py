@@ -9,7 +9,7 @@ class RationalNumber:
 
     def __gcd__(self, num1, num2):
         '''Computes and returns the greatest common divisor of the two
-            positive parameters. Uses Euclid's algorithm.'''
+        positive parameters. Uses Euclid's algorithm.'''
         while (num1 != num2):
             if (num1 > num2):
                 num1 = num1 - num2
@@ -19,7 +19,7 @@ class RationalNumber:
 
     def __init__(self, numer, denom):
         '''Constructor: Sets up the rational number by ensuring a nonzero
-            denominator and making only the numerator signed. Non-integers are converted.'''
+        denominator and making only the numerator signed. Non-integers are converted.'''
         self.numerator = numer
         self.denominator = denom
 
@@ -36,11 +36,11 @@ class RationalNumber:
     
     def __reduce__(self):
         '''Reduces this rational number by dividing both the numerator
-            and the denominator by their greatest common divisor.'''
+        and the denominator by their greatest common divisor.'''
         if (self.numerator != 0):
             common = self.__gcd__(abs(self.numerator), self.denominator)
-            self.numerator = self.numerator / common
-            self.denominator = self.denominator / common
+            self.numerator = self.numerator // common
+            self.denominator = self.denominator // common
 
     def __str__(self):
         result = ""
@@ -67,7 +67,7 @@ class RationalNumber:
 
     def add(self, op2):
         '''Adds this rational number to the one passed as a parameter. A common 
-            denominator is found by multiplying the individual denominators.'''
+        denominator is found by multiplying the individual denominators.'''
         commonDenominator = self.denominator * op2.getDenominator()
         numerator1 = self.numerator * op2.getDenominator()
         numerator2 = op2.getNumerator() * self.denominator
@@ -76,7 +76,7 @@ class RationalNumber:
     
     def subtract(self, op2):
         '''Subtracts the rational number passed as a parameter 
-            from this rational number.'''
+        from this rational number.'''
         commonDenominator = self.denominator * op2.getDenominator()
         numerator1 = self.numerator * op2.getDenominator()
         numerator2 = op2.getNumerator() * self.denominator
@@ -91,21 +91,10 @@ class RationalNumber:
 
     def divide(self, op2):
         '''Divides this rational number by the one passed as a parameter
-            by multiplying by the reciprocal of the second rational.'''
+        by multiplying by the reciprocal of the second rational.'''
         return self.multiply(op2.reciprocal())
     
     def isLike(self, op2):
         '''Determines if this rational number is equal to the one passed
-            as a parameter. Assumes they are both reduced.'''
+        as a parameter. Assumes they are both reduced.'''
         return ( self.numerator == op2.getNumerator() and self.denominator == op2.getDenominator() )
-
-
-
-def main():
-    #print(help(RationalNumber))
-    r1 = RationalNumber(3, 4)
-    print(r1)
-
-
-if __name__ == "__main__":
-    main()
