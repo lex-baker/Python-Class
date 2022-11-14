@@ -51,7 +51,8 @@ if __name__ == "__main__":
     main()
 
 """
-Output
+Expected Output:
+
 First rational number: 3/4
 Second rational number: 1/3
 r1 and r2 are NOT equal.
