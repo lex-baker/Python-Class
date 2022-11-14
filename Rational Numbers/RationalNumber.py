@@ -94,7 +94,7 @@ class RationalNumber:
             by multiplying by the reciprocal of the second rational.'''
         return self.multiply(op2.reciprocal())
     
-    def is_Like(self, op2):
+    def isLike(self, op2):
         '''Determines if this rational number is equal to the one passed
             as a parameter. Assumes they are both reduced.'''
         return ( self.numerator == op2.getNumerator() and self.denominator == op2.getDenominator() )
