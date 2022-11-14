@@ -4,7 +4,7 @@
 #  Driver to exercise the use of multiple Rational objects.
 #********************************************************************
 
-from RationalNumber import RationalNumber
+from RationalNumberClass import RationalNumber
 
 def main():
     '''Creates some rational number objects and performs various operations on them.'''
