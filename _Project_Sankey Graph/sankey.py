@@ -53,6 +53,7 @@ def main():
   # Draw the full sankey graph to the GraphWin object, using the dictionary of scores
   drawSankey(win, dataDict)
 
+  # Wait until user clicks on the canvas to close the window
   win.getMouse()
   win.close()
 
@@ -79,10 +80,8 @@ def makeDictionary(file):
 
 def drawSankey(win, info):
   total = 0.0
-  #short = len(list(info.keys())[0])
   for i in info:
     total += info[i]
-    #if(len(i) < short): short = len(i)
   availPix = 600 - (len(info) - 1) * 10
   ppf = availPix / total
   #The left and right were for the right-side boxes
@@ -97,7 +96,7 @@ def drawSankey(win, info):
   userBaseColor = [60, 180, 75]
   # Color list, all possible colors that can be used on the left side (assigned randomly)
   color_list = [[230, 25, 75], [255, 225, 25], [0, 130, 200], [245, 130, 48], [70, 240, 240], [240, 50, 230], [0, 128, 128], [170, 110, 40], [255, 250, 200], [128, 0, 0], [170, 255, 195], [0, 0, 128], [128, 128, 128], [0, 0, 0]]
-  #not necessary if user chooses colors
+  # Not necessary if user chooses colors
   random.shuffle(color_list)
   color_number = 0
   for i in info:
@@ -110,34 +109,31 @@ def drawSankey(win, info):
     #print(slope)
 
     for x in range(((win.getWidth() - 175) - 125) + 1):
+      # zto is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
       zto = x / ((win.getWidth() - 175) - 125)
       x += 125
       slopedY = polyTop - (zto * (polyTop - point1.getY()))
-      #while x < 200 or x > (-200) dont use a slope, just make rectangles
-      if(x <= 150):
-        newLine = Line(Point(x, polyTop), Point(x, (polyTop + (info[i] * ppf))))
-        win.plot(x, polyTop - 1, color="black")
-        win.plot(x, (polyTop + (info[i] * ppf)), color="black")
-      elif(x >= (win.getWidth() - 200)):
-        newLine = Line(Point(x, point1.getY()), Point(x, point2.getY()))
-        win.plot(x, point1.getY() - 1, color="black")
-        win.plot(x, point2.getY(), color="black")
-      else:
-        #slopedY = (x - 200) * slope + polyTop
 
-        zto = (math.sin(zto * math.pi - math.pi / 2 ) + 1) / 2
-        slopedY = polyTop - (zto * (polyTop - point1.getY()))
-        newLine = Line(Point(x, slopedY), Point(x, (slopedY + (info[i] * ppf))))
-        win.plot(x, slopedY - 1, color="black")
-        win.plot(x, (slopedY + (info[i] * ppf)), color="black")
+      #slopedY = (x - 200) * slope + polyTop
+
+      zto = (math.sin(zto * math.pi - math.pi / 2 ) + 1) / 2
+      slopedY = polyTop - (zto * (polyTop - point1.getY()))
+      newLine = Line(Point(x, slopedY), Point(x, (slopedY + (info[i] * ppf))))
+      win.plot(x, slopedY - 1, color="black")
+      win.plot(x, (slopedY + (info[i] * ppf)), color="black")
+        
+      # This section is for creating a smooth color gradient
       
-      
-      #Color will be each RBG value. first color will be multiplied by (1 - zto) and the second will be multiplied by zto. Then add
-      a = int(userBaseColor[0] * (1 - zto) + (color_list[color_number][0] * (zto)))
-      b = int(userBaseColor[1] * (1 - zto) + (color_list[color_number][1] * (zto)))
-      c = int(userBaseColor[2] * (1 - zto) + (color_list[color_number][2] * (zto)))
-      newLine.setFill(color_rgb(a, b, c))
-      if(x == 125 or x == (win.getWidth() - 175)): newLine.setFill(color_rgb(0, 0, 0))
+      if(zto == 0 or zto == 1):
+        # If the line is the first or the last one, make it black to outline the graph
+        newLine.setFill(color_rgb(0, 0, 0))
+      else:
+        # Color will be each RBG value. First color will be multiplied by (1 - zto) and the second will be multiplied by zto. Then add both
+        r = int(userBaseColor[0] * (1 - zto) + (color_list[color_number][0] * (zto)))
+        g = int(userBaseColor[1] * (1 - zto) + (color_list[color_number][1] * (zto)))
+        b = int(userBaseColor[2] * (1 - zto) + (color_list[color_number][2] * (zto)))
+        newLine.setFill(color_rgb(r, g, b))
+
       newLine.draw(win)
 
     """
