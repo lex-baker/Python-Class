@@ -79,11 +79,13 @@ def makeDictionary(file):
   return d
 
 def drawSankey(win, info):
+  # total stores the total of all values from the data
   total = 0.0
   for i in info:
     total += info[i]
-  availPix = 600 - (len(info) - 1) * 10
-  ppf = availPix / total
+  
+  available_pixels = 600 - (len(info) - 1) * 10
+  ppf = available_pixels / total # pixels per something, frame? line? 
   #The left and right were for the right-side boxes
   left = win.getWidth() - 200
   right = win.getWidth() - 175
@@ -106,19 +108,22 @@ def drawSankey(win, info):
 
     for x in range(125, (win.getWidth() - 175) + 1):
       # zto is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
+      # When first intialized, zto is a linear trend
       zto = (x - 125) / ((win.getWidth() - 175) - 125)
 
+      # Smoothing out zto by making it a sin curve instead of a linear trend
       zto = (math.sin(zto * math.pi - math.pi / 2 ) + 1) / 2
-      # print(zto)
 
+      # The top of the line being drawn, sized using zto
       slopedY = polyTop - (zto * (polyTop - point1.getY()))
+
+      # Creating the line object
       newLine = Line(Point(x, slopedY), Point(x, (slopedY + (info[i] * ppf))))
 
       # These two lines place a single black pixel at both ends of each line to give a smooth black border to the entire graph
       win.plot(x, slopedY - 1, color="black")
       win.plot(x, (slopedY + (info[i] * ppf)), color="black")
-        
-      
+              
 
       # This section is for creating the smooth color gradient
       
