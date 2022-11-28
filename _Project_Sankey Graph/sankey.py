@@ -107,12 +107,14 @@ def drawSankey(win, info):
     for x in range(125, (win.getWidth() - 175) + 1):
       # zto is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
       zto = (x - 125) / ((win.getWidth() - 175) - 125)
-      print(zto)
-
 
       zto = (math.sin(zto * math.pi - math.pi / 2 ) + 1) / 2
+      # print(zto)
+
       slopedY = polyTop - (zto * (polyTop - point1.getY()))
       newLine = Line(Point(x, slopedY), Point(x, (slopedY + (info[i] * ppf))))
+
+      # These two lines place a single black pixel at both ends of each line to give a smooth black border to the entire graph
       win.plot(x, slopedY - 1, color="black")
       win.plot(x, (slopedY + (info[i] * ppf)), color="black")
         
