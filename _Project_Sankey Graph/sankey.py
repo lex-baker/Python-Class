@@ -104,17 +104,11 @@ def drawSankey(win, info):
     newText = Text(Point((win.getWidth() - 88), (point1.getY() + point2.getY()) / 2), i)
     newText.draw(win)
 
-    #slope = (polyTop - point1.getY()) / (200 - point1.getX())
-    #the formula for this is y = slope * x + 200
-    #print(slope)
-
-    for x in range(((win.getWidth() - 175) - 125) + 1):
+    for x in range(125, (win.getWidth() - 175) + 1):
       # zto is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
-      zto = x / ((win.getWidth() - 175) - 125)
-      x += 125
-      slopedY = polyTop - (zto * (polyTop - point1.getY()))
+      zto = (x - 125) / ((win.getWidth() - 175) - 125)
+      print(zto)
 
-      #slopedY = (x - 200) * slope + polyTop
 
       zto = (math.sin(zto * math.pi - math.pi / 2 ) + 1) / 2
       slopedY = polyTop - (zto * (polyTop - point1.getY()))
@@ -122,7 +116,9 @@ def drawSankey(win, info):
       win.plot(x, slopedY - 1, color="black")
       win.plot(x, (slopedY + (info[i] * ppf)), color="black")
         
-      # This section is for creating a smooth color gradient
+      
+
+      # This section is for creating the smooth color gradient
       
       if(zto == 0 or zto == 1):
         # If the line is the first or the last one, make it black to outline the graph
@@ -136,19 +132,6 @@ def drawSankey(win, info):
 
       newLine.draw(win)
 
-    """
-    
-    newRect = Rectangle(point1, point2)
-    newRect.setFill(color_list[color_number])
-    newRect.draw(win)
-
-    newPoly = Polygon(Point(200, polyTop), point1, Point(left, point2.getY()), Point(200, (polyTop + (info[i] * ppf))))
-    #newPoly = Polygon(Point(200, 150), Point(500, 150), Point(500, 130), Point(200, 130))
-    newPoly.setFill(color_list[color_number])
-    newPoly.draw(win)
-    
-    """
-
     polyTop += info[i] * ppf
     point2.move(0, 10)
     point1 = Point(left, point2.getY())
@@ -156,14 +139,6 @@ def drawSankey(win, info):
       color_number = 0
     else: 
       color_number += 1
-
-  """
-  sourceRect = Rectangle(Point(175, (win.getHeight()/2 + 50) - (total * ppf / 2)), Point(200, (win.getHeight()/2 + 50) + (total * ppf / 2)))
-  sourceRect.setOutline("black")
-  sourceRect.setFill("#3cb44b")
-  sourceRect.draw(win)
-  """
-
 
 if __name__ == "__main__":
   main()
