@@ -6,15 +6,18 @@ import random
 def main():
   # Get user input for file name
   fileName = input("What file do you want to graph: ")
+  # If user enters --help
+  if(fileName == "--help"):
+        help()
   # Try-Except block to safely open the file
-  # Returns an error if not found instead of crashing
+  # Returns an error and help message if not found instead of crashing
   try:
     file = open((fileName + ".txt"), "r")
     #file = open(os.path.join(sys.path[0], (fileName + ".txt")), "r")
-  except:
+  except FileNotFoundError:
     # If file is not found, alert the user and end the program
     print("No such file exists!")
-    exit()
+    help()
 
   # Iterate through first three known values of each file, the comment, the title, and the left side label
 
@@ -26,7 +29,10 @@ def main():
 
 
   # Create the GraphWin object, at 900 by 900 pixels
-  win = GraphWin(' ', 900, 900)
+  win = GraphWin(' ', 900, 900, autoflush=False)
+
+  # Set background to grey
+  win.setBackground("grey")
 
   # Create the title text, set formatting, draw to GraphWin
   topText = Text(Point(win.getWidth()/2, 100), title)
@@ -52,6 +58,9 @@ def main():
 
   # Draw the full sankey graph to the GraphWin object, using the dictionary of scores
   drawSankey(win, dataDict)
+
+  # Save the graph as [filename].ps
+  # win.postscript(file = fileName + ".ps", colormode = "color") 
 
   # Wait until user clicks on the canvas to close the window
   win.getMouse()
@@ -79,50 +88,75 @@ def makeDictionary(file):
   return d
 
 def drawSankey(win, info):
+  """Function that takes the data and the canvas and creates the actual sankey diagram"""
+  # Defining constants
+  
   # total stores the total of all values from the data
   total = 0.0
   for i in info:
     total += info[i]
   
   available_pixels = 600 - (len(info) - 1) * 10
-  ppf = available_pixels / total # pixels per something, frame? line? 
+  
+  # Calculate the number of pixels per flow by dividing the amount of pixels avaiable by the total number of all data
+  # Allows for the conversion from values to relative size in pixels
+  pixels_per_flow = available_pixels / total # pixels per something, frame? line? 
   #The left and right were for the right-side boxes
   left = win.getWidth() - 200
   right = win.getWidth() - 175
   top = win.getHeight() / 2 - 250
-  polyTop = (win.getHeight()/2 + 50) - (total * ppf / 2)
+  polyTop = (win.getHeight()/2 + 50) - (total * pixels_per_flow / 2)
   point1 = Point(left, top)
   point2 = Point(right, top)
-  #Make this modifiable by user
+
   # Base color, aka the color on the left side of the graph
   userBaseColor = [60, 180, 75]
   # Color list, all possible colors that can be used on the left side (assigned randomly)
-  color_list = [[230, 25, 75], [255, 225, 25], [0, 130, 200], [245, 130, 48], [70, 240, 240], [240, 50, 230], [0, 128, 128], [170, 110, 40], [255, 250, 200], [128, 0, 0], [170, 255, 195], [0, 0, 128], [128, 128, 128], [0, 0, 0]]
-  # Not necessary if user chooses colors
-  random.shuffle(color_list)
-  color_number = 0
+  color_list = [
+    [230, 25, 75],
+    [255, 225, 25],
+    [0, 130, 200],
+    [245, 130, 48],
+    [70, 240, 240],
+    [240, 50, 230],
+    [0, 128, 128],
+    [170, 110, 40],
+    [255, 250, 200],
+    [128, 0, 0],
+    [170, 255, 195],
+    [0, 0, 128],
+    [0, 0, 0]
+  ]
+  
+  # Randomly choose colors from the predefined color list
+  color_number = random.randrange(len(color_list))
+
+  # For each data point in the dictionary
   for i in info:
-    point2.move(0, (info[i] * ppf))
+    # Store the value of the length of the lines for each data point
+    line_length = info[i] * pixels_per_flow
+    # For each line, move point2 down to the bottom of the line
+    point2.move(0, line_length)
     newText = Text(Point((win.getWidth() - 88), (point1.getY() + point2.getY()) / 2), i)
     newText.draw(win)
 
     for x in range(125, (win.getWidth() - 175) + 1):
-      # zto is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
+      # zto, or zero-to-one, is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
       # When first intialized, zto is a linear trend
       zto = (x - 125) / ((win.getWidth() - 175) - 125)
 
       # Smoothing out zto by making it a sin curve instead of a linear trend
-      zto = (math.sin(zto * math.pi - math.pi / 2 ) + 1) / 2
+      zto = (math.sin( zto * math.pi - math.pi / 2 ) + 1) / 2
 
       # The top of the line being drawn, sized using zto
       slopedY = polyTop - (zto * (polyTop - point1.getY()))
 
       # Creating the line object
-      newLine = Line(Point(x, slopedY), Point(x, (slopedY + (info[i] * ppf))))
+      newLine = Line(Point(x, slopedY), Point(x, (slopedY + line_length)))
 
-      # These two lines place a single black pixel at both ends of each line to give a smooth black border to the entire graph
+      # This places a single black pixel at both ends of each line to give a smooth black border to the entire graph
       win.plot(x, slopedY - 1, color="black")
-      win.plot(x, (slopedY + (info[i] * ppf)), color="black")
+      win.plot(x, (slopedY + line_length), color="black")
               
 
       # This section is for creating the smooth color gradient
@@ -139,14 +173,20 @@ def drawSankey(win, info):
 
       newLine.draw(win)
 
-    polyTop += info[i] * ppf
+    polyTop += line_length
     point2.move(0, 10)
     point1 = Point(left, point2.getY())
-    if(color_number > len(color_list)):
-      color_number = 0
-    else: 
-      color_number += 1
-
+    
+    # Choose another random color
+    color_number = random.randrange(len(color_list))
+  
+def help():
+  """This function returns a help message if the user mistypes the filename or inputs --help"""
+  print("This program converts data files into an easily understood Sankey Graph.")
+  print("More information on Sankey Graphs can be found here: https://www.data-to-viz.com/graph/sankey.html")
+  # Exit the program
+  exit()
+  
 if __name__ == "__main__":
   main()
   #print(makeDictionary(open("Baseball.txt")))
