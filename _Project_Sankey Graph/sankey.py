@@ -100,17 +100,21 @@ def drawSankey(win, info):
   
   # Calculate the number of pixels per flow by dividing the amount of pixels avaiable by the total number of all data
   # Allows for the conversion from values to relative size in pixels
-  pixels_per_flow = available_pixels / total # pixels per something, frame? line? 
-  #The left and right were for the right-side boxes
-  left = win.getWidth() - 200
+  pixels_per_flow = available_pixels / total
+
+  # right stores the right bound for the sankey diagram
   right = win.getWidth() - 175
   top = win.getHeight() / 2 - 250
-  polyTop = (win.getHeight()/2 + 50) - (total * pixels_per_flow / 2)
-  point1 = Point(left, top)
-  point2 = Point(right, top)
+  source_top = (win.getHeight()/2 + 50) - (total * pixels_per_flow / 2)
+
+  flow_top = top
+
+  # Create the variable that stores the height at which each label should be drawn at
+  flow_bottom = top
 
   # Base color, aka the color on the left side of the graph
-  userBaseColor = [60, 180, 75]
+  source_color = [60, 180, 75]
+
   # Color list, all possible colors that can be used on the left side (assigned randomly)
   color_list = [
     [230, 25, 75],
@@ -125,31 +129,39 @@ def drawSankey(win, info):
     [128, 0, 0],
     [170, 255, 195],
     [0, 0, 128],
-    [0, 0, 0]
   ]
   
   # Randomly choose colors from the predefined color list
   color_number = random.randrange(len(color_list))
 
+  # First, create the source rectangle
+  source_rect = Rectangle( Point(125, source_top), Point(150, source_top + available_pixels) )
+  source_rect.setOutline("black")
+  source_rect.setFill(color_rgb(source_color[0], source_color[1], source_color[2]))
+  source_rect.draw(win)
+
   # For each data point in the dictionary
   for i in info:
     # Store the value of the length of the lines for each data point
     line_length = info[i] * pixels_per_flow
-    # For each line, move point2 down to the bottom of the line
-    point2.move(0, line_length)
-    newText = Text(Point((win.getWidth() - 88), (point1.getY() + point2.getY()) / 2), i)
+
+    # Move flow_bottom down by line_length so it's at the bottom of the flow
+    flow_bottom += line_length
+
+    # New text is in the middle of the left space, and in between the top and bottom of the flow
+    newText = Text(Point((win.getWidth() - 88), (flow_top + flow_bottom) / 2), i)
     newText.draw(win)
 
-    for x in range(125, (win.getWidth() - 175) + 1):
+    for x in range(150, right + 1):
       # zto, or zero-to-one, is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
       # When first intialized, zto is a linear trend
-      zto = (x - 125) / ((win.getWidth() - 175) - 125)
+      zto = (x - 150) / (right - 150)
 
       # Smoothing out zto by making it a sin curve instead of a linear trend
       zto = (math.sin( zto * math.pi - math.pi / 2 ) + 1) / 2
 
       # The top of the line being drawn, sized using zto
-      slopedY = polyTop - (zto * (polyTop - point1.getY()))
+      slopedY = source_top - (zto * (source_top - flow_top))
 
       # Creating the line object
       newLine = Line(Point(x, slopedY), Point(x, (slopedY + line_length)))
@@ -161,21 +173,25 @@ def drawSankey(win, info):
 
       # This section is for creating the smooth color gradient
       
-      if(zto == 0 or zto == 1):
-        # If the line is the first or the last one, make it black to outline the graph
+      if zto == 1:
+        # If the line being drawn is the last one, make it black to finish outlining the graph
         newLine.setFill(color_rgb(0, 0, 0))
       else:
         # Color will be each RBG value. First color will be multiplied by (1 - zto) and the second will be multiplied by zto. Then add both
-        r = int(userBaseColor[0] * (1 - zto) + (color_list[color_number][0] * (zto)))
-        g = int(userBaseColor[1] * (1 - zto) + (color_list[color_number][1] * (zto)))
-        b = int(userBaseColor[2] * (1 - zto) + (color_list[color_number][2] * (zto)))
+        r = int(source_color[0] * (1 - zto) + (color_list[color_number][0] * (zto)))
+        g = int(source_color[1] * (1 - zto) + (color_list[color_number][1] * (zto)))
+        b = int(source_color[2] * (1 - zto) + (color_list[color_number][2] * (zto)))
         newLine.setFill(color_rgb(r, g, b))
 
+      # Draw the line
       newLine.draw(win)
 
-    polyTop += line_length
-    point2.move(0, 10)
-    point1 = Point(left, point2.getY())
+    # Move the source top down by line length
+    source_top += line_length
+
+    # Accounting for the spaces between flows, setting both variable to the top of the next flow
+    flow_bottom += 10
+    flow_top = flow_bottom
     
     # Choose another random color
     color_number = random.randrange(len(color_list))
