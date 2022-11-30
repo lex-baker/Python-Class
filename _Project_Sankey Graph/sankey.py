@@ -41,7 +41,7 @@ def main():
   topText.draw(win)
 
   # Create the left label text, draw to GraphWin
-  leftText = Text(Point(75, win.getHeight()/2), left_label)
+  leftText = Text(Point(75, win.getHeight()/2 + 50), left_label)
   leftText.draw(win)
 
   # Create file name informational text, draw to GraphWin
@@ -60,7 +60,7 @@ def main():
   drawSankey(win, dataDict)
 
   # Save the graph as [filename].ps
-  # win.postscript(file = fileName + ".ps", colormode = "color") 
+  win.postscript(file = fileName + ".ps", colormode = "color") 
 
   # Wait until user clicks on the canvas to close the window
   win.getMouse()
@@ -89,33 +89,33 @@ def makeDictionary(file):
 
 def drawSankey(win, info):
   """Function that takes the data and the canvas and creates the actual sankey diagram"""
-  # Defining constants
   
   # total stores the total of all values from the data
   total = 0.0
   for i in info:
     total += info[i]
   
+  # Find the amount of pixels available to be used by the source when accounting that the flows must have 10px
+  # of space between each, and the entirety of the right side is constrained to within 600px of height
   available_pixels = 600 - (len(info) - 1) * 10
   
   # Calculate the number of pixels per flow by dividing the amount of pixels avaiable by the total number of all data
   # Allows for the conversion from values to relative size in pixels
   pixels_per_flow = available_pixels / total
 
-  # right stores the right bound for the sankey diagram
-  right = win.getWidth() - 175
-  top = win.getHeight() / 2 - 250
-  source_top = (win.getHeight()/2 + 50) - (total * pixels_per_flow / 2)
+  # flow_right stores the right bound for the sankey diagram
+  flow_right = win.getWidth() - 175
 
-  flow_top = top
+  # top stores the top bound of the right side, the flows, of the sankey diagram
+  flow_top = win.getHeight() / 2 - 250
 
-  # Create the variable that stores the height at which each label should be drawn at
-  flow_bottom = top
+  # source_top stores the top bound of the source rectangle
+  source_top = (win.getHeight()/2 + 50) - (available_pixels / 2)
 
   # Base color, aka the color on the left side of the graph
   source_color = [60, 180, 75]
 
-  # Color list, all possible colors that can be used on the left side (assigned randomly)
+  # List of all possible colors that can be used for the flows (assigned randomly)
   color_list = [
     [230, 25, 75],
     [255, 225, 25],
@@ -130,9 +130,12 @@ def drawSankey(win, info):
     [170, 255, 195],
     [0, 0, 128],
   ]
+
+  # Randomize the color list 
+  random.shuffle(color_list)
   
-  # Randomly choose colors from the predefined color list
-  color_number = random.randrange(len(color_list))
+  # Initialize the variable that will iterate through the colors
+  color_number = 0
 
   # First, create the source rectangle
   source_rect = Rectangle( Point(125, source_top), Point(150, source_top + available_pixels) )
@@ -146,21 +149,21 @@ def drawSankey(win, info):
     line_length = info[i] * pixels_per_flow
 
     # Move flow_bottom down by line_length so it's at the bottom of the flow
-    flow_bottom += line_length
+    flow_bottom = flow_top + line_length
 
     # New text is in the middle of the left space, and in between the top and bottom of the flow
     newText = Text(Point((win.getWidth() - 88), (flow_top + flow_bottom) / 2), i)
     newText.draw(win)
 
-    for x in range(150, right + 1):
+    for x in range(150, flow_right + 1):
       # zto, or zero-to-one, is a float that represents how far along the lines have gotten, with the first line being 0 and the last being 1
       # When first intialized, zto is a linear trend
-      zto = (x - 150) / (right - 150)
+      zto = (x - 150) / (flow_right - 150)
 
       # Smoothing out zto by making it a sin curve instead of a linear trend
       zto = (math.sin( zto * math.pi - math.pi / 2 ) + 1) / 2
 
-      # The top of the line being drawn, sized using zto
+      # The top of the line being drawn, calculated using the zero-to-one values fitted to the sin curve 
       slopedY = source_top - (zto * (source_top - flow_top))
 
       # Creating the line object
@@ -194,7 +197,7 @@ def drawSankey(win, info):
     flow_top = flow_bottom
     
     # Choose another random color
-    color_number = random.randrange(len(color_list))
+    color_number += 1
   
 def help():
   """This function returns a help message if the user mistypes the filename or inputs --help"""
