@@ -4,6 +4,8 @@ import math
 import random
 
 def main():
+  """The main function, which calls all others. This function also opens the file that the user requests, creates the canvas and
+    various texts on it, and finally saves the finished graph."""
   # Get user input for file name
   fileName = input("What file do you want to graph: ")
   # If user enters --help
@@ -69,6 +71,7 @@ def main():
   
 
 def makeDictionary(file):
+  """This function takes the opened file object and translates the data within to a dictionary of labels and values"""
   # Initialize the dictionary
   d = {}
   # Read the next line (technically the fourth in the file, since three were already read)
@@ -201,6 +204,7 @@ def drawSankey(win, info):
   
 def help():
   """This function returns a help message if the user mistypes the filename or inputs --help"""
+  # Pring the help message and link to further reading
   print("This program converts data files into an easily understood Sankey Graph.")
   print("More information on Sankey Graphs can be found here: https://www.data-to-viz.com/graph/sankey.html")
   # Exit the program
@@ -208,4 +212,3 @@ def help():
   
 if __name__ == "__main__":
   main()
-  #print(makeDictionary(open("Baseball.txt")))
