@@ -8,14 +8,16 @@ def main():
     various texts on it, and finally saves the finished graph."""
   # Get user input for file name
   fileName = input("What file do you want to graph: ")
+  # Print input for submitty
+  print(fileName)
   # If user enters --help
   if(fileName == "--help"):
         help()
   # Try-Except block to safely open the file
   # Returns an error and help message if not found instead of crashing
   try:
-    file = open((fileName + ".txt"), "r")
-    #file = open(os.path.join(sys.path[0], (fileName + ".txt")), "r")
+    file = open((fileName), "r")
+    fileName = fileName.split(".")[0]
   except FileNotFoundError:
     # If file is not found, alert the user and end the program
     print("No such file exists!")
@@ -31,7 +33,7 @@ def main():
 
 
   # Create the GraphWin object, at 900 by 900 pixels
-  win = GraphWin(' ', 900, 900, autoflush=False)
+  win = GraphWin(' ', 900, 900)
 
   # Set background to grey
   win.setBackground("grey")
@@ -62,7 +64,7 @@ def main():
   drawSankey(win, dataDict)
 
   # Save the graph as [filename].ps
-  win.postscript(file = fileName + ".ps", colormode = "color") 
+  win.postscript(file = fileName + ".ps", colormode = "color")
 
   # Wait until user clicks on the canvas to close the window
   win.getMouse()
@@ -74,7 +76,7 @@ def makeDictionary(file):
   """This function takes the opened file object and translates the data within to a dictionary of labels and values"""
   # Initialize the dictionary
   d = {}
-  # Read the next line (technically the fourth in the file, since three were already read)
+  # Read the next line (the fourth in the file, since three were already read)
   line = file.readline()
   # Loop until file runs out of lines
   while line:
@@ -203,7 +205,8 @@ def drawSankey(win, info):
     color_number += 1
   
 def help():
-  """This function returns a help message if the user mistypes the filename or inputs --help"""
+  """This function returns a help message if the user mistypes the filename or inputs --help. This function is for
+    extra credit"""
   # Pring the help message and link to further reading
   print("This program converts data files into an easily understood Sankey Graph.")
   print("More information on Sankey Graphs can be found here: https://www.data-to-viz.com/graph/sankey.html")
