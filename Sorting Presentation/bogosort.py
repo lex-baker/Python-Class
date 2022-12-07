@@ -7,6 +7,7 @@ import numpy as np
 def is_sorted(arr):
     # Find time complexity for built-in sorted and manual sort checking
     if arr == sorted(arr):
+    #if(all(arr[i] <= arr[i + 1] for i in range(len(arr)-1))):
         return True
     return False
 
@@ -28,13 +29,14 @@ def test():
     # turns out even the first data set is slow as hell
     # array = open("datasets/data100.txt").readlines()
     # array = [int(x) for x in array]
+    outfile_name = "new_results"
 
-    outfile = open('5_20_results.txt', 'w')
+    outfile = open(outfile_name, 'w')
 
     data = []
 
     # Even smaller auto test cases (size of 5 through 10)
-    for i in range(5, 21):
+    for i in range(5, 9):
         # Create iterative values in array and randomize
         array = [j for j in range(i)]
         random.shuffle(array)
@@ -110,7 +112,7 @@ def test():
         wspace=0.5
     )
 
-    plt.savefig('5_20_results.png')
+    plt.savefig(outfile_name + '.png')
     plt.show()
 
     
