@@ -1,0 +1,25 @@
+For array of size: 5
+Time elapsed: 8.890009485185146e-05 seconds
+Total iterations: 38
+
+------------------------------
+
+For array of size: 6
+Time elapsed: 0.0007895000744611025 seconds
+Total iterations: 334
+
+------------------------------
+
+For array of size: 7
+Time elapsed: 0.01738209999166429 seconds
+Total iterations: 5393
+
+------------------------------
+
+For array of size: 8
+Time elapsed: 0.190445699961856 seconds
+Total iterations: 59534
+
+------------------------------
+
+[[5, 8.890009485185146e-05, 38], [6, 0.0007895000744611025, 334], [7, 0.01738209999166429, 5393], [8, 0.190445699961856, 59534]]
