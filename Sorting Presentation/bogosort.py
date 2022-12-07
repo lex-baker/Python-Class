@@ -11,8 +11,12 @@ def is_sorted(arr):
 
 def bogo(arr):
     # Find time complexity with both manual shuffling and random.shuffle
+    # count of iterations
+    iters = 0
     while not is_sorted(arr):
         random.shuffle(arr)
+        iters += 1
+    return iters
 
 
 def test():
@@ -20,23 +24,31 @@ def test():
     # plot time complexity
 
     # temporary with just first dataset
-    array = open("datasets/data100.txt").readlines()
-    array = [int(x) for x in array]
-    array = [10, 4, 2, 5, 9, 3, 1, 7, 8, 6]
+    # turns out even the first data set is slow as hell
+    # array = open("datasets/data100.txt").readlines()
+    # array = [int(x) for x in array]
 
-    # time start
-    time_start = perf_counter()
+    # Even smaller auto test cases (size of 5 through 10)
+    for i in range(5, 16):
+        # Create random values in array
+        array = [random.randrange(30) for j in range(i)]
 
-    # run sort
-    bogo(array)
+        # time start
+        time_start = perf_counter()
 
-    # time stop
-    time_stop = perf_counter()
+        # run sort
+        iterations_needed = bogo(array)
 
-    # calc time
-    time_elapsed = time_stop - time_start
+        # time stop
+        time_stop = perf_counter()
 
-    print("Time elapsed:", time_elapsed, "seconds")
+        # calc time
+        time_elapsed = time_stop - time_start
+
+        print("For array of size", len(array))
+        print("Time elapsed:", time_elapsed, "seconds")
+        print("Total iterations:", iterations_needed)
+        print("\n", "-"*30, "\n", sep="")
 
 
     # remove this later
