@@ -1,0 +1,53 @@
+For array of size: 5
+Time elapsed: 0.0003965000000003549 seconds
+Total iterations: 160
+
+------------------------------
+
+For array of size: 6
+Time elapsed: 0.0030988999999999045 seconds
+Total iterations: 1052
+
+------------------------------
+
+For array of size: 7
+Time elapsed: 0.0029610999999998278 seconds
+Total iterations: 937
+
+------------------------------
+
+For array of size: 8
+Time elapsed: 0.1733669 seconds
+Total iterations: 48234
+
+------------------------------
+
+For array of size: 9
+Time elapsed: 2.2698061000000003 seconds
+Total iterations: 556733
+
+------------------------------
+
+For array of size: 10
+Time elapsed: 7.0226025 seconds
+Total iterations: 1498756
+
+------------------------------
+
+For array of size: 11
+Time elapsed: 233.0761725 seconds
+Total iterations: 46748508
+
+------------------------------
+
+For array of size: 12
+Time elapsed: 3692.2933636 seconds
+Total iterations: 683225148
+
+------------------------------
+
+For array of size: 13
+Time elapsed: 5101.8547968 seconds
+Total iterations: 910700369
+
+------------------------------
