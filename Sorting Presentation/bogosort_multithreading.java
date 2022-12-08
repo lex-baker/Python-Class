@@ -5,22 +5,33 @@ import java.io.FileWriter;
 
 class bogosort_multithreading {
     public static void main(String[] args) {
-        /*
         try {
-            File file = new File("results_java.txt");
+
+            File file = new File("5_20_results_java.txt");
+            if (file.createNewFile()) {
+                System.out.println("File created: " + file.getName() + "\n");
+            } else {
+                System.out.println("File already exists.");
+                System.exit(0);
+            }
+            
+            for(int i = 5; i < 21; i++) {
+                test(i, file);
+            }
+            
+
+
         } catch (IOException e) {
             System.out.println("An error occurred.");
-            //e.printStackTrace();
         }
-        */
-        File file = new File("results_java.txt");
-        test(10, file);
+
+        
     }
 
 
     public static void test(int size, File outfile) {
         try {
-            FileWriter fr = new FileWriter(outfile);
+            FileWriter fr = new FileWriter(outfile, true);
 
             ArrayList<Integer> array = create_random_array(size);
 
@@ -39,6 +50,12 @@ class bogosort_multithreading {
             System.out.println("For array of size: " + array.size());
             System.out.println("That took " + timeElapsed + " seconds");
             System.out.println("Total iterations: " + iterations);
+            System.out.println("\n------------------------------\n\n");
+
+            fr.write("For array of size: " + array.size() + "\n");
+            fr.write("That took " + timeElapsed + " seconds\n");
+            fr.write("Total iterations: " + iterations + "\n");
+            fr.write("\n------------------------------\n\n");
 
             fr.close();
         } catch (IOException e) {
