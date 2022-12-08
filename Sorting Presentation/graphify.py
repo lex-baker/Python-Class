@@ -10,9 +10,17 @@ def graph(filename):
 
     file = open(filename)
 
+    # NOT THIS EASY :(
     # Data needs to equal the last line of file
-    data = eval(file.readlines()[-1])
+    #data = eval(file.readlines()[-1])
 
+    # New way of extracting data based on file formatting
+    data = []
+    lines = file.readlines()
+    for i in range(len(lines)):
+        if "For array of size:" in lines[i]:
+            data.append( [ int(lines[i][19:]), eval(lines[i+1][10:-8]), int(lines[i+2][18:]) ] )
+        
     file.close()
 
 
@@ -60,4 +68,4 @@ def graph(filename):
     plt.show()
 
 
-graph("results.txt")
+graph("results_java.txt")
