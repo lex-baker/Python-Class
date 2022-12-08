@@ -1,24 +1,49 @@
 import java.util.*;
+import java.io.File;  // Import the File class
+import java.io.IOException;
+import java.io.FileWriter;
 
 class bogosort_multithreading {
     public static void main(String[] args) {
-        ArrayList<Integer> array = create_random_array(10);
+        /*
+        try {
+            File file = new File("results_java.txt");
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            //e.printStackTrace();
+        }
+        */
+        File file = new File("results_java.txt");
+        test(10, file);
+    }
 
-        // Start timer
-        long startTime = System.nanoTime();
 
-        // Run the bogosort
-        int iterations = bogosort(array);
-        
-        // End timer
-        long endTime = System.nanoTime();
+    public static void test(int size, File outfile) {
+        try {
+            FileWriter fr = new FileWriter(outfile);
 
-        float timeElapsed = (float) (endTime - startTime) / (float) 1e+9;
+            ArrayList<Integer> array = create_random_array(size);
 
-        //System.out.println("That took " + (endTime - startTime) + " nanoseconds");
-        System.out.println("For array of size: " + array.size());
-        System.out.println("That took " + timeElapsed + " seconds");
-        System.out.println("Total iterations: " + iterations);
+            // Start timer
+            long startTime = System.nanoTime();
+
+            // Run the bogosort
+            int iterations = bogosort(array);
+            
+            // End timer
+            long endTime = System.nanoTime();
+
+            float timeElapsed = (float) (endTime - startTime) / (float) 1e+9;
+
+            //System.out.println("That took " + (endTime - startTime) + " nanoseconds");
+            System.out.println("For array of size: " + array.size());
+            System.out.println("That took " + timeElapsed + " seconds");
+            System.out.println("Total iterations: " + iterations);
+
+            fr.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
 
     }
 
