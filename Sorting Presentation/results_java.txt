@@ -1,0 +1,36 @@
+For array of size: 5
+That took 7.667E-4 seconds
+Total iterations: 155
+
+------------------------------
+
+For array of size: 6
+That took 9.715E-4 seconds
+Total iterations: 401
+
+------------------------------
+
+For array of size: 7
+That took 0.003690601 seconds
+Total iterations: 8432
+
+------------------------------
+
+For array of size: 8
+That took 0.0055355 seconds
+Total iterations: 16612
+
+------------------------------
+
+For array of size: 9
+That took 0.0258789 seconds
+Total iterations: 159937
+
+------------------------------
+
+For array of size: 10
+That took 0.5385602 seconds
+Total iterations: 5226375
+
+------------------------------
+

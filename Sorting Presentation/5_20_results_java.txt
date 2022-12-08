@@ -1,0 +1,48 @@
+For array of size: 5
+That took 0.0014203 seconds
+Total iterations: 298
+
+------------------------------
+
+For array of size: 6
+That took 0.0020874 seconds
+Total iterations: 2301
+
+------------------------------
+
+For array of size: 7
+That took 0.0016909 seconds
+Total iterations: 4077
+
+------------------------------
+
+For array of size: 8
+That took 0.013863 seconds
+Total iterations: 50440
+
+------------------------------
+
+For array of size: 9
+That took 0.0146247 seconds
+Total iterations: 86092
+
+------------------------------
+
+For array of size: 10
+That took 0.2616921 seconds
+Total iterations: 2768653
+
+------------------------------
+
+For array of size: 11
+That took 6.2910476 seconds
+Total iterations: 57145234
+
+------------------------------
+
+For array of size: 12
+That took 48.45981 seconds
+Total iterations: 452763275
+
+------------------------------
+
