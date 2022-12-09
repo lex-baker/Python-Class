@@ -17,6 +17,7 @@ def graph(filename):
     # New way of extracting data based on file formatting
     data = []
     lines = file.readlines()
+    # Not super efficient but effective
     for i in range(len(lines)):
         if "For array of size:" in lines[i]:
             data.append( [ int(lines[i][19:]), eval(lines[i+1][10:-8]), int(lines[i+2][18:]) ] )
