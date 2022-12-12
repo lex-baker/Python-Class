@@ -46,3 +46,20 @@ Total iterations: 452763275
 
 ------------------------------
 
+For array of size: 13
+That took 1051.0724 seconds
+Total iterations: 679754440
+
+------------------------------
+
+For array of size: 14
+That took 686.10504 seconds
+Total iterations: 757213935
+
+------------------------------
+
+For array of size: 15
+That took 76903.88 seconds
+Total iterations: 1396869788
+
+------------------------------
