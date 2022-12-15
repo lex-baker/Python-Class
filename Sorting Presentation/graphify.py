@@ -24,6 +24,8 @@ def graph(filename):
         
     file.close()
 
+    print(data)
+
 
     plt.rcParams['axes.autolimit_mode'] = 'round_numbers'
 
@@ -41,7 +43,7 @@ def graph(filename):
     ax1.set_title('Time in Seconds')
     ax1.set_xlabel("Array Size")
     ax1.set_xlim(data[0][0], data[-1][0])
-    ax1.set_ylim(0, data[-1][1])
+    ax1.set_ylim(0, 80000)
     ax1.set_box_aspect(1)
 
 
@@ -58,15 +60,15 @@ def graph(filename):
     ax2.set_xticks(np.arange(data[0][0], data[-1][0] + 1, 1))
     #ax2.set_yticks(np.arange(data[0][2], data[-1][2] + 1))
     ax2.set_xlim(data[0][0], data[-1][0])
-    ax2.set_ylim(0, data[-1][2] + 1)
+    ax2.set_ylim(0, 1.5e9) # Hardcoding in values
     ax2.set_box_aspect(1)
 
     plt.subplots_adjust(
         wspace=0.5
     )
 
-    #plt.savefig('5_20_results.png')
+    #plt.savefig('5_20_results_java.png')
     plt.show()
 
 
-graph("results_java.txt")
+graph("5_20_results_java.txt")
